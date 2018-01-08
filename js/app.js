@@ -1,4 +1,6 @@
 const dog_api = 'https://dog.ceo/api/'
+const select = document.getElementById("selectBreed");
+const breedImage = document.getElementById("breedImage");
 
 let dogSearch = ()=>{
     let api_url = 'https://dog.ceo/api/breeds/list/all';
@@ -15,13 +17,12 @@ let dogSearch = ()=>{
 
         console.log(dogs);
 
-            let select = document.getElementById('selectBreed');
             dogs.forEach(dog => {
                 select.innerHTML += `
                     <option value="${dog}">${dog}</option>
                 `
             });
-        }
+        },
 
         error: (error)=>{
             console.log("Ooopppsss must be an error")
@@ -29,43 +30,27 @@ let dogSearch = ()=>{
     })
 }
 
-//  selectBreed.addEventListener('click',dogSearch)
-//  viewDog.addEventListener('click', function(){
-// let cho = document.getElementById('selectBreed');
-// let breedName = cho.choice[cho.selectedIndex].text;
-// //console.log(breedName);
-// let api_url = 'https://dog.ceo/api/breed/' + breedName + '/images/random';
-// $.ajax({
-//     url: api_url,
-//     dataType: 'json',
-//     success: (data) => {
-//         //console.log(data);
-//         document.getElementById("breedImage").setAttribute("src", data.message); 
-//      },
-//     error: (error)=>{
-//         console.log("Ooopppsss must be an error")
-//     }
-// });
-//  });
+dogSearch();
+
+let viewDog = document.getElementById('viewDog');
+
+viewDog.addEventListener('click', function(){
+    let dogValue = select.options[select.selectedIndex].value;
+    console.log(dogValue);
+    let image_api_url = `https://dog.ceo/api/breed/${dogValue}/images/random`;
+
+    $.ajax({
+        url: image_api_url,
+        dataType: 'json',
+        success: (data) => {
+            console.log(data)
+            //console.log(data);
+            breedImage.setAttribute("src", data.message); 
+        },
+        error: (error)=>{
+            console.log("Ooopppsss must be an error")
+        }
+    });
+ });
          
-
-        //  let select = document.getElementById('selectBreed');
-        //  data.forEach(function(key){
-        //      select.innerHTML+=`
-        //      <option value="${message.key}" >
-        //             ${message.key}
-        //      </option>
-        //     `
-        //  })
-
-        //  Object.keys(data.message).forEach(function(key) {
-
-        //     let choice = document.createElement("choice");
-        //     choice.value= key;
-        //     choice.innerHTML = key; 
-         
-          
-        //     select.appendChild(choice); 
-        //   });
-        //  },
         
